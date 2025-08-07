@@ -63,14 +63,14 @@ def format_stock_data(data):
     return f"""
 {color} {data['stock_name']} ({data['stock_code']})
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-💰 当前价格: {data['current_price']:.5f} 元
-📊 涨跌金额: {change_symbol}{data['change_amount']:.5f} 元
+💰 当前价格: {data['current_price']:.3f} 元
+📊 涨跌金额: {change_symbol}{data['change_amount']:.3f} 元
 📈 涨跌幅度: {change_symbol}{data['change_percent']:.5f}%
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-📅 昨收价格: {data['yesterday_close']:.5f} 元
-🌅 开盘价格: {data['open_price']:.5f} 元
-⬆️  最高价格: {data['high_price']:.5f} 元
-⬇️  最低价格: {data['low_price']:.5f} 元
+📅 昨收价格: {data['yesterday_close']:.3f} 元
+🌅 开盘价格: {data['open_price']:.3f} 元
+⬆️  最高价格: {data['high_price']:.3f} 元
+⬇️  最低价格: {data['low_price']:.3f} 元
 🕐 更新时间: {data['update_time']}
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
     """
