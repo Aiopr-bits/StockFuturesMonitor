@@ -79,7 +79,7 @@ def get_futures_data(futures_code):
                 open_price = safe_float(info[8])
                 high_price = safe_float(info[4])
                 low_price = safe_float(info[5])
-                yesterday_close = 1#h获取不到数据
+                yesterday_close = 23938.01#获取不到数据
                 change_amount = current_price - yesterday_close
                 update_time = info[6]
                 change_percent = (change_amount / yesterday_close) * 100
