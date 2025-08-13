@@ -41,7 +41,7 @@ class StockFuturesMonitor:
             response.encoding = 'gbk'
             if response.status_code == 200:
                 data = response.text
-                if 'var hq_str_sz' in data:
+                if 'var hq_str_sz' in data or 'var hq_str_sh' in data:
                     stock_info = data.split('"')[1].split(',')
                     if len(stock_info) >= 32:
                         stock_name = stock_info[0]
