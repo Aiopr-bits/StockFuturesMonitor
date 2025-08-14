@@ -1,12 +1,24 @@
-from PyQt5 import QtWidgets, uic, QtCore,QtGui
+import sys
+import os
+from PyQt5 import QtWidgets, uic, QtCore, QtGui
 from StockFuturesMonitor import StockFuturesMonitor
 
-
 class MainWindow(QtWidgets.QWidget):
+    def resource_path(self, relative_path):
+        """获取资源文件的绝对路径，支持PyInstaller打包"""
+        try:
+            # PyInstaller创建临时文件夹，将路径存储在_MEIPASS中
+            base_path = sys._MEIPASS
+        except Exception:
+            base_path = os.path.abspath(".")
+        return os.path.join(base_path, relative_path)
+
     def __init__(self):
         """初始化主窗口"""
         super().__init__()
-        uic.loadUi('MainWindow.ui', self)
+        # 使用self.resource_path调用成员函数
+        ui_file = self.resource_path('MainWindow.ui')
+        uic.loadUi(ui_file, self)
 
         self.setWindowFlags(QtCore.Qt.FramelessWindowHint)
         self.widget_2.hide()
@@ -157,7 +169,9 @@ class MainWindow(QtWidgets.QWidget):
         """创建系统托盘图标和菜单"""
         # 创建托盘图标
         self.tray_icon = QtWidgets.QSystemTrayIcon(self)
-        self.tray_icon.setIcon(QtGui.QIcon('./res/icon.jpg'))
+        # 使用self.resource_path获取图标路径
+        icon_path = self.resource_path('res/icon.jpg')
+        self.tray_icon.setIcon(QtGui.QIcon(icon_path))
 
         # 创建托盘菜单
         tray_menu = QtWidgets.QMenu()

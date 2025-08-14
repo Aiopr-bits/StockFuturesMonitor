@@ -1,0 +1,2 @@
+打包命令：
+pyinstaller --onefile --noconsole --icon=res/icon.jpg --add-data "MainWindow.ui;." --add-data "res;res" --hidden-import=MainWindow --hidden-import=StockFuturesMonitor --name=StockFuturesMonitor main.py
