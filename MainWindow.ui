@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>276</width>
-    <height>279</height>
+    <width>258</width>
+    <height>328</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -16,6 +16,9 @@
   <property name="windowIcon">
    <iconset>
     <normaloff>res/icon.jpg</normaloff>res/icon.jpg</iconset>
+  </property>
+  <property name="styleSheet">
+   <string notr="true">QWidget { background-color: rgb(255, 255, 255);}</string>
   </property>
   <layout class="QGridLayout" name="gridLayout_4">
    <property name="leftMargin">
@@ -67,8 +70,31 @@
             </item>
             <item>
              <widget class="QRadioButton" name="radioButton">
+              <property name="styleSheet">
+               <string notr="true">
+
+QRadioButton::indicator {
+    width: 16px;
+    height: 16px;
+    border: 1px solid rgb(150, 150, 150);
+    background: rgb(255, 255, 255);
+    border-radius: 8px; /* 设置为圆形 */
+}
+
+QRadioButton::indicator:hover {
+    background: rgb(242, 242, 242);
+}
+
+QRadioButton::indicator:checked {
+    image: url(./res/radioButton.png);
+    border-radius: 8px; /* 确保选中状态也为圆形 */
+}</string>
+              </property>
               <property name="text">
                <string>股票代码</string>
+              </property>
+              <property name="checked">
+               <bool>true</bool>
               </property>
              </widget>
             </item>
@@ -90,6 +116,26 @@
             </item>
             <item>
              <widget class="QRadioButton" name="radioButton_2">
+              <property name="styleSheet">
+               <string notr="true">
+
+QRadioButton::indicator {
+    width: 16px;
+    height: 16px;
+    border: 1px solid rgb(150, 150, 150);
+    background: rgb(255, 255, 255);
+    border-radius: 8px; /* 设置为圆形 */
+}
+
+QRadioButton::indicator:hover {
+    background: rgb(242, 242, 242);
+}
+
+QRadioButton::indicator:checked {
+    image: url(./res/radioButton.png);
+    border-radius: 8px; /* 确保选中状态也为圆形 */
+}</string>
+              </property>
               <property name="text">
                <string>期货代码</string>
               </property>
@@ -180,7 +226,29 @@
              </spacer>
             </item>
             <item>
-             <widget class="QLineEdit" name="lineEdit"/>
+             <widget class="QLineEdit" name="lineEdit">
+              <property name="minimumSize">
+               <size>
+                <width>100</width>
+                <height>25</height>
+               </size>
+              </property>
+              <property name="maximumSize">
+               <size>
+                <width>100</width>
+                <height>25</height>
+               </size>
+              </property>
+              <property name="styleSheet">
+               <string notr="true">QLineEdit {
+    border: 1px solid rgb(192, 192, 192); /* 默认边框颜色 */
+}
+QLineEdit:focus {
+    border: 1px solid rgb(50, 170, 233); /* 焦点时的边框颜色 */
+    outline: none;                       /* 移除默认虚线框 */
+}</string>
+              </property>
+             </widget>
             </item>
             <item>
              <spacer name="horizontalSpacer_6">
@@ -261,7 +329,29 @@
              </spacer>
             </item>
             <item>
-             <widget class="QLineEdit" name="lineEdit_2"/>
+             <widget class="QLineEdit" name="lineEdit_2">
+              <property name="minimumSize">
+               <size>
+                <width>100</width>
+                <height>25</height>
+               </size>
+              </property>
+              <property name="maximumSize">
+               <size>
+                <width>100</width>
+                <height>25</height>
+               </size>
+              </property>
+              <property name="styleSheet">
+               <string notr="true">QLineEdit {
+    border: 1px solid rgb(192, 192, 192); /* 默认边框颜色 */
+}
+QLineEdit:focus {
+    border: 1px solid rgb(50, 170, 233); /* 焦点时的边框颜色 */
+    outline: none;                       /* 移除默认虚线框 */
+}</string>
+              </property>
+             </widget>
             </item>
             <item>
              <spacer name="horizontalSpacer_9">
@@ -280,6 +370,138 @@
           </item>
           <item>
            <spacer name="verticalSpacer_4">
+            <property name="orientation">
+             <enum>Qt::Vertical</enum>
+            </property>
+            <property name="sizeType">
+             <enum>QSizePolicy::Fixed</enum>
+            </property>
+            <property name="sizeHint" stdset="0">
+             <size>
+              <width>20</width>
+              <height>20</height>
+             </size>
+            </property>
+           </spacer>
+          </item>
+          <item>
+           <layout class="QHBoxLayout" name="horizontalLayout_5">
+            <item>
+             <spacer name="horizontalSpacer_13">
+              <property name="orientation">
+               <enum>Qt::Horizontal</enum>
+              </property>
+              <property name="sizeHint" stdset="0">
+               <size>
+                <width>40</width>
+                <height>20</height>
+               </size>
+              </property>
+             </spacer>
+            </item>
+            <item>
+             <widget class="QPushButton" name="pushButton_4">
+              <property name="minimumSize">
+               <size>
+                <width>100</width>
+                <height>25</height>
+               </size>
+              </property>
+              <property name="maximumSize">
+               <size>
+                <width>100</width>
+                <height>25</height>
+               </size>
+              </property>
+              <property name="styleSheet">
+               <string notr="true">QPushButton {
+    background-color: rgb(255, 255, 255); /* 背景色 */
+    border: 1px solid rgb(122, 122, 122); /* 边框色 */
+    border-radius: 2px; /* 圆润边框 */
+}
+
+QPushButton:hover {
+    background-color: rgb(242, 242, 242); /* 鼠标悬浮背景色 */
+}
+
+QPushButton:pressed {
+    background-color: rgb(235, 235, 235); /* 鼠标点击背景色 */
+}
+</string>
+              </property>
+              <property name="text">
+               <string>字体颜色</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <spacer name="horizontalSpacer_14">
+              <property name="orientation">
+               <enum>Qt::Horizontal</enum>
+              </property>
+              <property name="sizeType">
+               <enum>QSizePolicy::Fixed</enum>
+              </property>
+              <property name="sizeHint" stdset="0">
+               <size>
+                <width>10</width>
+                <height>20</height>
+               </size>
+              </property>
+             </spacer>
+            </item>
+            <item>
+             <widget class="QPushButton" name="pushButton_3">
+              <property name="minimumSize">
+               <size>
+                <width>100</width>
+                <height>25</height>
+               </size>
+              </property>
+              <property name="maximumSize">
+               <size>
+                <width>100</width>
+                <height>25</height>
+               </size>
+              </property>
+              <property name="styleSheet">
+               <string notr="true">QPushButton {
+    background-color: rgb(255, 255, 255); /* 背景色 */
+    border: 1px solid rgb(122, 122, 122); /* 边框色 */
+    border-radius: 2px; /* 圆润边框 */
+}
+
+QPushButton:hover {
+    background-color: rgb(242, 242, 242); /* 鼠标悬浮背景色 */
+}
+
+QPushButton:pressed {
+    background-color: rgb(235, 235, 235); /* 鼠标点击背景色 */
+}
+</string>
+              </property>
+              <property name="text">
+               <string>背景颜色</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <spacer name="horizontalSpacer_15">
+              <property name="orientation">
+               <enum>Qt::Horizontal</enum>
+              </property>
+              <property name="sizeHint" stdset="0">
+               <size>
+                <width>40</width>
+                <height>20</height>
+               </size>
+              </property>
+             </spacer>
+            </item>
+           </layout>
+          </item>
+          <item>
+           <spacer name="verticalSpacer_6">
             <property name="orientation">
              <enum>Qt::Vertical</enum>
             </property>
@@ -323,6 +545,22 @@
                 <height>25</height>
                </size>
               </property>
+              <property name="styleSheet">
+               <string notr="true">QPushButton {
+    background-color: rgb(255, 255, 255); /* 背景色 */
+    border: 1px solid rgb(122, 122, 122); /* 边框色 */
+    border-radius: 2px; /* 圆润边框 */
+}
+
+QPushButton:hover {
+    background-color: rgb(242, 242, 242); /* 鼠标悬浮背景色 */
+}
+
+QPushButton:pressed {
+    background-color: rgb(235, 235, 235); /* 鼠标点击背景色 */
+}
+</string>
+              </property>
               <property name="text">
                <string>开启监控</string>
               </property>
@@ -357,6 +595,22 @@
                 <width>100</width>
                 <height>25</height>
                </size>
+              </property>
+              <property name="styleSheet">
+               <string notr="true">QPushButton {
+    background-color: rgb(255, 255, 255); /* 背景色 */
+    border: 1px solid rgb(122, 122, 122); /* 边框色 */
+    border-radius: 2px; /* 圆润边框 */
+}
+
+QPushButton:hover {
+    background-color: rgb(242, 242, 242); /* 鼠标悬浮背景色 */
+}
+
+QPushButton:pressed {
+    background-color: rgb(235, 235, 235); /* 鼠标点击背景色 */
+}
+</string>
               </property>
               <property name="text">
                <string>关闭</string>

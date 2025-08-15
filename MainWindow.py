@@ -4,15 +4,6 @@ from PyQt5 import QtWidgets, uic, QtCore, QtGui
 from StockFuturesMonitor import StockFuturesMonitor
 
 class MainWindow(QtWidgets.QWidget):
-    def resource_path(self, relative_path):
-        """获取资源文件的绝对路径，支持PyInstaller打包"""
-        try:
-            # PyInstaller创建临时文件夹，将路径存储在_MEIPASS中
-            base_path = sys._MEIPASS
-        except Exception:
-            base_path = os.path.abspath(".")
-        return os.path.join(base_path, relative_path)
-
     def __init__(self):
         """初始化主窗口"""
         super().__init__()
@@ -50,6 +41,20 @@ class MainWindow(QtWidgets.QWidget):
         self.pushButton_2.clicked.connect(self.onPushButton2Clicked)
         self._is_dragging = False
         self._drag_pos = None
+
+        # 连接调色板按钮
+        self.pushButton_3.clicked.connect(self.change_background_color)
+        self.pushButton_4.clicked.connect(self.change_font_color)
+        self.load_color_settings()
+
+    def resource_path(self, relative_path):
+        """获取资源文件的绝对路径，支持PyInstaller打包"""
+        try:
+            # PyInstaller创建临时文件夹，将路径存储在_MEIPASS中
+            base_path = sys._MEIPASS
+        except Exception:
+            base_path = os.path.abspath(".")
+        return os.path.join(base_path, relative_path)
 
     def on_radioButton_toggled(self, checked):
         """当第一个单选按钮被选中时，设置lineEdit和lineEdit_2的占位符文本"""
@@ -226,3 +231,168 @@ class MainWindow(QtWidgets.QWidget):
             QtWidgets.QSystemTrayIcon.Information,
             2000
         )
+
+    def style_dialog_buttons(self, dialog):
+        """为对话框中的所有按钮设置样式"""
+        button_style = """
+            QPushButton {
+                background-color: rgb(255, 255, 255);
+                border: 1px solid rgb(122, 122, 122);
+                border-radius: 2px;
+                min-width: 60px;
+                min-height: 20px;
+            }
+
+            QPushButton:hover {
+                background-color: rgb(242, 242, 242);
+            }
+
+            QPushButton:pressed {
+                background-color: rgb(235, 235, 235);
+            }
+        """
+
+        # 查找对话框中的所有QPushButton并递归查找子控件
+        def apply_style_to_buttons(widget):
+            for child in widget.children():
+                if isinstance(child, QtWidgets.QPushButton):
+                    child.setStyleSheet(button_style)
+                elif hasattr(child, 'children'):
+                    apply_style_to_buttons(child)
+
+        apply_style_to_buttons(dialog)
+
+        # 同时直接设置findChildren找到的按钮
+        buttons = dialog.findChildren(QtWidgets.QPushButton)
+        for button in buttons:
+            button.setStyleSheet(button_style)
+
+    def change_background_color(self):
+        """点击按钮弹出调色板设置背景颜色"""
+        current_color = QtCore.Qt.white
+        # 尝试获取当前背景颜色
+        try:
+            current_style = self.styleSheet()
+            if 'background-color:' in current_style:
+                color_start = current_style.find('background-color:') + len('background-color:')
+                color_end = current_style.find(';', color_start)
+                if color_end == -1:
+                    color_end = len(current_style)
+                color_name = current_style[color_start:color_end].strip()
+                current_color = QtGui.QColor(color_name)
+        except:
+            current_color = QtCore.Qt.white
+
+        # 创建自定义的QColorDialog
+        color_dialog = QtWidgets.QColorDialog(current_color, self)
+        color_dialog.setWindowTitle("选择背景颜色")
+
+        # 显示对话框后查找并设置按钮样式
+        QtCore.QTimer.singleShot(0, lambda: self.style_dialog_buttons(color_dialog))
+
+        if color_dialog.exec_() == QtWidgets.QDialog.Accepted:
+            color = color_dialog.currentColor()
+            # 保持原有的字体颜色，只改变背景颜色
+            font_color = self.get_current_font_color()
+            new_style = f"background-color: {color.name()}; color: {font_color};"
+            self.setStyleSheet(new_style)
+            self.save_color_settings(background_color=color.name())
+
+    def change_font_color(self):
+        """点击按钮弹出调色板设置字体颜色"""
+        current_color = QtCore.Qt.black
+        # 尝试获取当前字体颜色
+        try:
+            current_style = self.styleSheet()
+            if 'color:' in current_style:
+                # 查找字体颜色（不是背景颜色）
+                parts = current_style.split(';')
+                for part in parts:
+                    if 'color:' in part and 'background-color:' not in part:
+                        color_name = part.split('color:')[1].strip()
+                        current_color = QtGui.QColor(color_name)
+                        break
+        except:
+            current_color = QtCore.Qt.black
+
+        # 创建自定义的QColorDialog
+        color_dialog = QtWidgets.QColorDialog(current_color, self)
+        color_dialog.setWindowTitle("选择字体颜色")
+
+        # 显示对话框后查找并设置按钮样式
+        QtCore.QTimer.singleShot(0, lambda: self.style_dialog_buttons(color_dialog))
+
+        if color_dialog.exec_() == QtWidgets.QDialog.Accepted:
+            color = color_dialog.currentColor()
+            # 保持原有的背景颜色，只改变字体颜色
+            background_color = self.get_current_background_color()
+            new_style = f"background-color: {background_color}; color: {color.name()};"
+            self.setStyleSheet(new_style)
+            self.save_color_settings(font_color=color.name())
+
+    def get_current_background_color(self):
+        """获取当前背景颜色"""
+        try:
+            current_style = self.styleSheet()
+            if 'background-color:' in current_style:
+                color_start = current_style.find('background-color:') + len('background-color:')
+                color_end = current_style.find(';', color_start)
+                if color_end == -1:
+                    color_end = len(current_style)
+                return current_style[color_start:color_end].strip()
+        except:
+            pass
+        return '#ffffff'  # 默认白色
+
+    def get_current_font_color(self):
+        """获取当前字体颜色"""
+        try:
+            current_style = self.styleSheet()
+            if 'color:' in current_style:
+                parts = current_style.split(';')
+                for part in parts:
+                    if 'color:' in part and 'background-color:' not in part:
+                        return part.split('color:')[1].strip()
+        except:
+            pass
+        return '#000000'  # 默认黑色
+
+    def save_color_settings(self, background_color=None, font_color=None):
+        """保存颜色设置到配置文件"""
+        try:
+            import json
+            config_file = self.resource_path('config.json')
+
+            # 读取现有配置
+            try:
+                with open(config_file, 'r', encoding='utf-8') as f:
+                    config = json.load(f)
+            except FileNotFoundError:
+                config = {}
+
+            # 更新颜色设置
+            if background_color:
+                config['background_color'] = background_color
+            if font_color:
+                config['font_color'] = font_color
+
+            # 保存配置
+            with open(config_file, 'w', encoding='utf-8') as f:
+                json.dump(config, f, ensure_ascii=False, indent=2)
+        except Exception as e:
+            print(f"保存颜色设置失败: {e}")
+
+    def load_color_settings(self):
+        """从配置文件加载颜色设置"""
+        try:
+            import json
+            config_file = self.resource_path('config.json')
+            with open(config_file, 'r', encoding='utf-8') as f:
+                config = json.load(f)
+                background_color = config.get('background_color', '#ffffff')
+                font_color = config.get('font_color', '#000000')
+                style = f"background-color: {background_color}; color: {font_color};"
+                self.setStyleSheet(style)
+        except Exception:
+            # 如果加载失败，使用默认颜色
+            self.setStyleSheet("background-color: #ffffff; color: #000000;")
